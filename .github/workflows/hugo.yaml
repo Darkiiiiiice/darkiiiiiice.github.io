@@ -1,0 +1,22 @@
+name: Deploy Hugo Site
+on:
+  push:
+    branches:
+      - master # 修改为你的主分支
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2.3.3
+        with:
+          hugo-version: "v0.111.3" # 修改为你使用的 Hugo 版本
+      - name: Build
+        run: hugo --baseUrl="https://mariomang.github.io" --minify
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3.7.0
+        with:
+          personal_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./docs
