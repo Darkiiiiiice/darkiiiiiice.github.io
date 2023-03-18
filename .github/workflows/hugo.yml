@@ -2,7 +2,7 @@ name: Deploy Hugo Site
 on:
   push:
     branches:
-      - master # 修改为你的主分支
+      - main # 修改为你的主分支
 jobs:
   deploy:
     runs-on: ubuntu-latest
