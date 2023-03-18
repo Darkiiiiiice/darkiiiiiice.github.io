@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on MarioMang Blog</title>
+    <link>https://mariomang.github.io/tags/</link>
+    <description>Recent content in Tags on MarioMang Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>github.com/mariomang</copyright>
+    <lastBuildDate>Sun, 19 Mar 2023 00:24:36 +0800</lastBuildDate><atom:link href="https://mariomang.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>internet</title>
+      <link>https://mariomang.github.io/tags/internet/</link>
+      <pubDate>Sun, 19 Mar 2023 00:24:36 +0800</pubDate>
+      
+      <guid>https://mariomang.github.io/tags/internet/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>protocol</title>
+      <link>https://mariomang.github.io/tags/protocol/</link>
+      <pubDate>Sun, 19 Mar 2023 00:24:36 +0800</pubDate>
+      
+      <guid>https://mariomang.github.io/tags/protocol/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>

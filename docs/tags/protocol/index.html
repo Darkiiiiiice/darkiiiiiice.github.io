@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>protocol :: MarioMang Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="" />
+<meta name="keywords" content="blog" />
+<meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://mariomang.github.io/tags/protocol/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://mariomang.github.io/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://mariomang.github.io/images/avatar.jpg">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="protocol">
+<meta property="og:description" content="" />
+<meta property="og:url" content="https://mariomang.github.io/tags/protocol/" />
+<meta property="og:site_name" content="MarioMang Blog" />
+
+  
+    <meta property="og:image" content="https://mariomang.github.io/images/avatar.jpg">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+
+
+
+  <link href="/tags/protocol/index.xml" rel="alternate" type="application/rss+xml" title="MarioMang Blog" />
+
+
+
+
+
+
+
+
+
+</head>
+<body class="blue">
+
+
+<div class="container full headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    MarioMang
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/">Home</a></li>
+        
+      
+        
+          <li><a href="/showcase">Showcase</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/">Home</a></li>
+        
+      
+        
+          <li><a href="/showcase">Showcase</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+  
+  <div class="posts">
+    
+      <article class="post on-list">
+        <h1 class="post-title">
+          <a href="https://mariomang.github.io/posts/20220319/arp/">ARP 地址解析协议</a>
+        </h1>
+        <div class="post-meta">
+          
+            <time class="post-date">
+              2023-03-19 ::
+            </time>
+          
+          
+            <span class="post-author">MarioMang</span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://mariomang.github.io/tags/internet/">internet</a>&nbsp;
+            
+            #<a href="https://mariomang.github.io/tags/protocol/">protocol</a>&nbsp;
+            
+          </span>
+        
+
+        
+  <img src="https://mariomang.github.io/images/default_cover.gif"
+    class="post-cover"
+    alt="ARP 地址解析协议"
+    title="Cover Image" />
+
+
+        <div class="post-content">
+          
+            ARP(Address Resolution Protocol) 地址解析协议
+引言 传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机
+地址解析协议(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6
+ARP缓存 ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射
+Linux下使用arp命令查看ARP缓存
+$ arp Address HWtype HWaddress FlagsMask Iface 192.168.1.1 ether f4:0f:3b:2a:4b:ec C eno1 arp -a 用于显示缓存中的所有条目
+$ arp -a domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1 ARP帧格式 字段 DST SRC TYPE HardwareType ProtocolType HardwareLength ProtoclLength Op 字节 6 6 2 2 2 1 1 2 字段 SRC MAC SRC IP DST MAC DST IP Padding FCS 字节 6 6 6 6 18 4 字段解释
+          
+        </div>
+
+        
+          <div>
+            <a class="read-more button" href="/posts/20220319/arp/">Read more →</a>
+          </div>
+        
+      </article>
+    
+
+    <div class="pagination">
+  <div class="pagination__buttons">
+    
+    
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>github.com/mariomang</span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

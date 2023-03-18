@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>ARP 地址解析协议 :: MarioMang Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ARP(Address Resolution Protocol) 地址解析协议
+引言 传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机
+地址解析协议(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6
+ARP缓存 ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射
+Linux下使用arp命令查看ARP缓存
+$ arp Address HWtype HWaddress FlagsMask Iface 192.168.1.1 ether f4:0f:3b:2a:4b:ec C eno1 arp -a 用于显示缓存中的所有条目
+$ arp -a domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1 ARP帧格式 字段 DST SRC TYPE HardwareType ProtocolType HardwareLength ProtoclLength Op 字节 6 6 2 2 2 1 1 2 字段 SRC MAC SRC IP DST MAC DST IP Padding FCS 字节 6 6 6 6 18 4 字段解释" />
+<meta name="keywords" content="internet, protocol, arp" />
+<meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://mariomang.github.io/posts/20220319/arp/" />
+
+
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="https://mariomang.github.io/css/red-local.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://mariomang.github.io/images/avatar.jpg">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="ARP 地址解析协议">
+<meta property="og:description" content="ARP(Address Resolution Protocol) 地址解析协议
+引言 传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机
+地址解析协议(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6
+ARP缓存 ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射
+Linux下使用arp命令查看ARP缓存
+$ arp Address HWtype HWaddress FlagsMask Iface 192.168.1.1 ether f4:0f:3b:2a:4b:ec C eno1 arp -a 用于显示缓存中的所有条目
+$ arp -a domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1 ARP帧格式 字段 DST SRC TYPE HardwareType ProtocolType HardwareLength ProtoclLength Op 字节 6 6 2 2 2 1 1 2 字段 SRC MAC SRC IP DST MAC DST IP Padding FCS 字节 6 6 6 6 18 4 字段解释" />
+<meta property="og:url" content="https://mariomang.github.io/posts/20220319/arp/" />
+<meta property="og:site_name" content="MarioMang Blog" />
+
+  
+  
+  <meta property="og:image" content="https://mariomang.github.io/images/default_cover.gif">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2023-03-19 00:24:36 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="red">
+
+
+<div class="container full headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    MarioMang
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/">Home</a></li>
+        
+      
+        
+          <li><a href="/showcase">Showcase</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/">Home</a></li>
+        
+      
+        
+          <li><a href="/showcase">Showcase</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://mariomang.github.io/posts/20220319/arp/">ARP 地址解析协议</a>
+  </h1>
+  <div class="post-meta">
+    
+      <time class="post-date">
+        2023-03-19 ::
+        
+          [Updated :: 2023-03-19]
+        
+      </time>
+    
+    
+      <span class="post-author">MarioMang</span>
+    
+    
+      <span class="post-reading-time">:: 3 min read (454 words)</span>
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://mariomang.github.io/tags/internet/">internet</a>&nbsp;
+      
+      #<a href="https://mariomang.github.io/tags/protocol/">protocol</a>&nbsp;
+      
+    </span>
+  
+  
+  <img src="https://mariomang.github.io/images/default_cover.gif"
+    class="post-cover"
+    alt="ARP 地址解析协议"
+    title="Cover Image" />
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        catalog
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#arp缓存">ARP缓存</a></li>
+    <li><a href="#arp帧格式">ARP帧格式</a></li>
+    <li><a href="#arp-缓存超时">ARP 缓存超时</a></li>
+    <li><a href="#arp数据包发送与接收">ARP数据包发送与接收</a>
+      <ul>
+        <li><a href="#发送arp数据包">发送ARP数据包</a></li>
+        <li><a href="#接收arp数据包">接收ARP数据包</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <h1 id="arpaddress-resolution-protocol">ARP(Address Resolution Protocol)<a href="#arpaddress-resolution-protocol" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<blockquote>
+<p>地址解析协议</p>
+</blockquote>
+<h2 id="引言">引言<a href="#引言" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机<br>
+<em>地址解析协议</em>(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6</p>
+<h2 id="arp缓存">ARP缓存<a href="#arp缓存" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射</p>
+<p>Linux下使用arp命令查看ARP缓存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ arp 
+</span></span><span style="display:flex;"><span>Address     HWtype HWaddress         FlagsMask  Iface
+</span></span><span style="display:flex;"><span>192.168.1.1 ether  f4:0f:3b:2a:4b:ec C          eno1
+</span></span></code></pre></div><p>arp -a 用于显示缓存中的所有条目</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ arp -a
+</span></span><span style="display:flex;"><span>domain <span style="color:#f92672">(</span>192.168.199.121<span style="color:#f92672">)</span> at f4:0f:24:2a:4b:ec <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> on eno1
+</span></span></code></pre></div><h2 id="arp帧格式">ARP帧格式<a href="#arp帧格式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">DST</th>
+<th style="text-align:center">SRC</th>
+<th style="text-align:center">TYPE</th>
+<th style="text-align:center">HardwareType</th>
+<th style="text-align:center">ProtocolType</th>
+<th style="text-align:center">HardwareLength</th>
+<th style="text-align:center">ProtoclLength</th>
+<th style="text-align:center">Op</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">字节</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">SRC MAC</th>
+<th style="text-align:center">SRC IP</th>
+<th style="text-align:center">DST MAC</th>
+<th style="text-align:center">DST IP</th>
+<th style="text-align:center">Padding</th>
+<th style="text-align:center">FCS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">字节</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">18</td>
+<td style="text-align:center">4</td>
+</tr>
+</tbody>
+</table>
+<p>字段解释</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">字节</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DST</td>
+<td style="text-align:center">目的地址</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">[ff:ff:ff:ff:ff:ff]</td>
+</tr>
+<tr>
+<td style="text-align:center">SRC</td>
+<td style="text-align:center">来源地址</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">[12:34:56:78:9a:bc]</td>
+</tr>
+<tr>
+<td style="text-align:center">TYPE</td>
+<td style="text-align:center">长度或类型</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">ARP 该字段必须为 0x0806</td>
+</tr>
+<tr>
+<td style="text-align:center">Hardware Type</td>
+<td style="text-align:center">硬件类型</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0x01</td>
+</tr>
+<tr>
+<td style="text-align:center">Protocol Type</td>
+<td style="text-align:center">协议类型</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0x0800</td>
+</tr>
+<tr>
+<td style="text-align:center">Hardware Len</td>
+<td style="text-align:center">硬件大小</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0x06</td>
+</tr>
+<tr>
+<td style="text-align:center">Protocol Len</td>
+<td style="text-align:center">协议大小</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0x04</td>
+</tr>
+<tr>
+<td style="text-align:center">Op</td>
+<td style="text-align:center">操作</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">ARP请求=0x01 ARP应答=0x02 RARP请求=0x03 RARP应答=0x04</td>
+</tr>
+<tr>
+<td style="text-align:center">SRC MAC</td>
+<td style="text-align:center">源硬件地址</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">[12:34:56:78:9a:bc]</td>
+</tr>
+<tr>
+<td style="text-align:center">SRC IP</td>
+<td style="text-align:center">源IPv4地址</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">[123.123.123.123]</td>
+</tr>
+<tr>
+<td style="text-align:center">DST MAC</td>
+<td style="text-align:center">目标硬件地址</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">[12:34:56:78:9a:bc]</td>
+</tr>
+<tr>
+<td style="text-align:center">DST IP</td>
+<td style="text-align:center">目标IPv4地址</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">[123.123.123.123]</td>
+</tr>
+<tr>
+<td style="text-align:center">Padding</td>
+<td style="text-align:center">填充字段</td>
+<td style="text-align:center">18</td>
+<td style="text-align:center">0x00</td>
+</tr>
+<tr>
+<td style="text-align:center">FCS</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="arp-缓存超时">ARP 缓存超时<a href="#arp-缓存超时" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>在大多数实现中, 完成条目的超时为20分钟, 不完整条目的超时时间为3分钟</p>
+<h2 id="arp数据包发送与接收">ARP数据包发送与接收<a href="#arp数据包发送与接收" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="发送arp数据包">发送ARP数据包<a href="#发送arp数据包" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ol>
+<li>
+<p>Linux:</p>
+<ul>
+<li>首先实现一个 htons, 因为 Socket() 中 protocol 参数占用两个字节，所以实现一个 int16 的 htons 就可以了</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Htons16</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">+</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ul>
+<li>定义 Arp Packet 结构</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// ArpPacket  ARP数据包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ArpPacket</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">DstMac</span> [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// 目的地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">SrcMac</span> [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// 来源地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Frame</span>  <span style="color:#66d9ef">uint16</span>  <span style="color:#75715e">// 长度或类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">HwType</span>     <span style="color:#66d9ef">uint16</span>   <span style="color:#75715e">// 硬件类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ProtoType</span>  <span style="color:#66d9ef">uint16</span>   <span style="color:#75715e">// 协议类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">HwLen</span>      <span style="color:#66d9ef">byte</span>     <span style="color:#75715e">// 硬件大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ProtoLen</span>   <span style="color:#66d9ef">byte</span>     <span style="color:#75715e">// 协议大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Op</span>         <span style="color:#66d9ef">uint16</span>   <span style="color:#75715e">// 操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ArpSrcMac</span>  [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">byte</span>  <span style="color:#75715e">// 源硬件地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ArpSrcIp</span>   [<span style="color:#ae81ff">4</span>]<span style="color:#66d9ef">byte</span>  <span style="color:#75715e">// 源IPv4地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ArpDstMac</span>  [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">byte</span>  <span style="color:#75715e">// 目标硬件地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ArpDstIp</span>   [<span style="color:#ae81ff">4</span>]<span style="color:#66d9ef">byte</span>  <span style="color:#75715e">// 目标IPv4地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ArpPadding</span> [<span style="color:#ae81ff">18</span>]<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// 填充字段
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//ArpFCS     [4]byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span></code></pre></div><ul>
+<li>构造 Arp 数据包</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// 构造arp数据包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">packet</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">arp</span>.<span style="color:#a6e22e">ArpPacket</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造头部信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    copy(<span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">DstMac</span>[:], <span style="color:#a6e22e">dstMac</span>)
+</span></span><span style="display:flex;"><span>    copy(<span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">SrcMac</span>[:], <span style="color:#a6e22e">eno1</span>.<span style="color:#a6e22e">HardwareAddr</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">Frame</span> = <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">ETH_P_ARP</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造ARP类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">HwType</span> = <span style="color:#ae81ff">0x01</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">ProtoType</span> = <span style="color:#ae81ff">0x0800</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">HwLen</span> = <span style="color:#ae81ff">0x06</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">ProtoLen</span> = <span style="color:#ae81ff">0x04</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">Op</span> = <span style="color:#a6e22e">ArpRequest</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造来源ARP地址信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">srcIp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ParseIP</span>(<span style="color:#e6db74">&#34;192.168.199.153&#34;</span>)
+</span></span><span style="display:flex;"><span>    copy(<span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">ArpSrcMac</span>[:], <span style="color:#a6e22e">eno1</span>.<span style="color:#a6e22e">HardwareAddr</span>)
+</span></span><span style="display:flex;"><span>    copy(<span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">ArpSrcIp</span>[:], <span style="color:#a6e22e">srcIp</span>.<span style="color:#a6e22e">To4</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造目的ARP地址信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dstIp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ParseIP</span>(<span style="color:#e6db74">&#34;192.168.199.101&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//copy(packet.ArpDstMac[:], dstMac)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    copy(<span style="color:#a6e22e">packet</span>.<span style="color:#a6e22e">ArpDstIp</span>[:], <span style="color:#a6e22e">dstIp</span>.<span style="color:#a6e22e">To4</span>())
+</span></span></code></pre></div><ul>
+<li>建立原始套接字</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#a6e22e">sockfd</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Socket</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">AF_PACKET</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SOCK_RAW</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">arp</span>.<span style="color:#a6e22e">Htons16</span>(<span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">ETH_P_ARP</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ul>
+<li>发送数据包并关闭 Socket</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// 将Packet结构转为bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewBuffer</span>(make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">buffer</span>, <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>, <span style="color:#a6e22e">packet</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 发送数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Sendto</span>(<span style="color:#a6e22e">sockfd</span>, <span style="color:#a6e22e">buffer</span>.<span style="color:#a6e22e">Bytes</span>(), <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">linklayer</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 关闭套接字
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Close</span>(<span style="color:#a6e22e">sockfd</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div></li>
+<li>
+<p>Mac OS X</p>
+<blockquote>
+<p>需要使用BPF实现, 等有空的时候再实现</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="接收arp数据包">接收ARP数据包<a href="#接收arp数据包" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ol>
+<li>
+<p>Linux</p>
+<ul>
+<li>建立原始套接字</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// 通过 Linux 原始套接字完成数据包的接收
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">recvFd</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Socket</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">AF_PACKET</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SOCK_RAW</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">arp</span>.<span style="color:#a6e22e">Htons16</span>(<span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">ETH_P_ARP</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ul>
+<li>接受 Arp 数据包</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// 数据会读取进buf切片中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">fromAddr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Recvfrom</span>(<span style="color:#a6e22e">recvFd</span>, <span style="color:#a6e22e">buf</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ul>
+<li>解析数据包</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#a6e22e">packet</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">arp</span>.<span style="color:#a6e22e">ArpPacket</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewBuffer</span>(<span style="color:#a6e22e">buf</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">buffer</span>, <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>, <span style="color:#a6e22e">packet</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><ul>
+<li>关闭套接字</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>    <span style="color:#75715e">// 关闭套接字
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Close</span>(<span style="color:#a6e22e">recvFd</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div></li>
+<li>
+<p>Mac OS X</p>
+<blockquote>
+<p>需要使用BPF实现, 等有空的时候再实现</p>
+</blockquote>
+</li>
+</ol>
+
+      </div></div>
+
+  
+    
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>github.com/mariomang</span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

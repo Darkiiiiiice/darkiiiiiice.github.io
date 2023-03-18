@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on MarioMang Blog</title>
+    <link>https://mariomang.github.io/posts/</link>
+    <description>Recent content in Posts on MarioMang Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>github.com/mariomang</copyright>
+    <lastBuildDate>Sun, 19 Mar 2023 00:24:36 +0800</lastBuildDate><atom:link href="https://mariomang.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ARP 地址解析协议</title>
+      <link>https://mariomang.github.io/posts/20220319/arp/</link>
+      <pubDate>Sun, 19 Mar 2023 00:24:36 +0800</pubDate>
+      
+      <guid>https://mariomang.github.io/posts/20220319/arp/</guid>
+      <description>ARP(Address Resolution Protocol) 地址解析协议
+引言 传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机
+地址解析协议(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6
+ARP缓存 ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射
+Linux下使用arp命令查看ARP缓存
+$ arp Address HWtype HWaddress FlagsMask Iface 192.168.1.1 ether f4:0f:3b:2a:4b:ec C eno1 arp -a 用于显示缓存中的所有条目
+$ arp -a domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1 ARP帧格式 字段 DST SRC TYPE HardwareType ProtocolType HardwareLength ProtoclLength Op 字节 6 6 2 2 2 1 1 2 字段 SRC MAC SRC IP DST MAC DST IP Padding FCS 字节 6 6 6 6 18 4 字段解释</description>
+      <content>&lt;h1 id=&#34;arpaddress-resolution-protocol&#34;&gt;ARP(Address Resolution Protocol)&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;地址解析协议&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
+&lt;p&gt;传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机&lt;br&gt;
+&lt;em&gt;地址解析协议&lt;/em&gt;(ARP)[RFC0826] 提供了在IPv4地址和硬件地址之间的映射, ARP 仅用于IPv4, IPv6使用邻居发现协议, 它被合并入ICMPv6&lt;/p&gt;
+&lt;h2 id=&#34;arp缓存&#34;&gt;ARP缓存&lt;/h2&gt;
+&lt;p&gt;ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该缓存使用地址解析为每个接口维护从网络层地址到硬件地址的最新映射&lt;/p&gt;
+&lt;p&gt;Linux下使用arp命令查看ARP缓存&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ arp 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Address     HWtype HWaddress         FlagsMask  Iface
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;192.168.1.1 ether  f4:0f:3b:2a:4b:ec C          eno1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;arp -a 用于显示缓存中的所有条目&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ arp -a
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;domain &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.199.121&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at f4:0f:24:2a:4b:ec &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; on eno1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;arp帧格式&#34;&gt;ARP帧格式&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;字段&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;DST&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;SRC&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;TYPE&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;HardwareType&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;ProtocolType&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;HardwareLength&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;ProtoclLength&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Op&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;字节&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;字段&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;SRC MAC&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;SRC IP&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;DST MAC&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;DST IP&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Padding&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;FCS&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;字节&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;18&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;字段解释&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;字段&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;名称&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;字节&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;DST&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;目的地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[ff:ff:ff:ff:ff:ff]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;SRC&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;来源地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[12:34:56:78:9a:bc]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;TYPE&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;长度或类型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;ARP 该字段必须为 0x0806&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Hardware Type&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;硬件类型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0x01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Protocol Type&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;协议类型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0x0800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Hardware Len&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;硬件大小&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0x06&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Protocol Len&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;协议大小&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0x04&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Op&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;操作&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;ARP请求=0x01 ARP应答=0x02 RARP请求=0x03 RARP应答=0x04&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;SRC MAC&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;源硬件地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[12:34:56:78:9a:bc]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;SRC IP&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;源IPv4地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[123.123.123.123]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;DST MAC&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;目标硬件地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[12:34:56:78:9a:bc]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;DST IP&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;目标IPv4地址&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[123.123.123.123]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Padding&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;填充字段&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;18&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0x00&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;FCS&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;arp-缓存超时&#34;&gt;ARP 缓存超时&lt;/h2&gt;
+&lt;p&gt;在大多数实现中, 完成条目的超时为20分钟, 不完整条目的超时时间为3分钟&lt;/p&gt;
+&lt;h2 id=&#34;arp数据包发送与接收&#34;&gt;ARP数据包发送与接收&lt;/h2&gt;
+&lt;h3 id=&#34;发送arp数据包&#34;&gt;发送ARP数据包&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Linux:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先实现一个 htons, 因为 Socket() 中 protocol 参数占用两个字节，所以实现一个 int16 的 htons 就可以了&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Htons16&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0xFF&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0xFF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;定义 Arp Packet 结构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ArpPacket  ARP数据包
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpPacket&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;DstMac&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 目的地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;SrcMac&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 来源地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;Frame&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;uint16&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 长度或类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;HwType&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;uint16&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;// 硬件类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ProtoType&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;uint16&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;// 协议类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;HwLen&lt;/span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;// 硬件大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ProtoLen&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;// 协议大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;Op&lt;/span&gt;         &lt;span style=&#34;color:#66d9ef&#34;&gt;uint16&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;// 操作
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpSrcMac&lt;/span&gt;  [&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 源硬件地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpSrcIp&lt;/span&gt;   [&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 源IPv4地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpDstMac&lt;/span&gt;  [&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 目标硬件地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpDstIp&lt;/span&gt;   [&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 目标IPv4地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpPadding&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 填充字段
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//ArpFCS     [4]byte
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;构造 Arp 数据包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 构造arp数据包
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; new(&lt;span style=&#34;color:#a6e22e&#34;&gt;arp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ArpPacket&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 构造头部信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    copy(&lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;DstMac&lt;/span&gt;[:], &lt;span style=&#34;color:#a6e22e&#34;&gt;dstMac&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    copy(&lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;SrcMac&lt;/span&gt;[:], &lt;span style=&#34;color:#a6e22e&#34;&gt;eno1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HardwareAddr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Frame&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ETH_P_ARP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 构造ARP类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HwType&lt;/span&gt; = &lt;span style=&#34;color:#ae81ff&#34;&gt;0x01&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ProtoType&lt;/span&gt; = &lt;span style=&#34;color:#ae81ff&#34;&gt;0x0800&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HwLen&lt;/span&gt; = &lt;span style=&#34;color:#ae81ff&#34;&gt;0x06&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ProtoLen&lt;/span&gt; = &lt;span style=&#34;color:#ae81ff&#34;&gt;0x04&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Op&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;ArpRequest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 构造来源ARP地址信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;srcIp&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;net&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ParseIP&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.199.153&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    copy(&lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ArpSrcMac&lt;/span&gt;[:], &lt;span style=&#34;color:#a6e22e&#34;&gt;eno1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HardwareAddr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    copy(&lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ArpSrcIp&lt;/span&gt;[:], &lt;span style=&#34;color:#a6e22e&#34;&gt;srcIp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;To4&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 构造目的ARP地址信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;dstIp&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;net&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ParseIP&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.199.101&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//copy(packet.ArpDstMac[:], dstMac)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    copy(&lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ArpDstIp&lt;/span&gt;[:], &lt;span style=&#34;color:#a6e22e&#34;&gt;dstIp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;To4&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;建立原始套接字&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;sockfd&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Socket&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AF_PACKET&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;SOCK_RAW&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;arp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Htons16&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ETH_P_ARP&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;发送数据包并关闭 Socket&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 将Packet结构转为bytes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bytes&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewBuffer&lt;/span&gt;(make([]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binary&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Write&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;binary&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;BigEndian&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 发送数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Sendto&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;sockfd&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;buffer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Bytes&lt;/span&gt;(), &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;linklayer&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 关闭套接字
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;sockfd&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mac OS X&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要使用BPF实现, 等有空的时候再实现&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;接收arp数据包&#34;&gt;接收ARP数据包&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Linux&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;建立原始套接字&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 通过 Linux 原始套接字完成数据包的接收
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;recvFd&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Socket&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AF_PACKET&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;SOCK_RAW&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;arp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Htons16&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ETH_P_ARP&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;接受 Arp 数据包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 数据会读取进buf切片中
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;buf&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make([]&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;fromAddr&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Recvfrom&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;recvFd&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;buf&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;解析数据包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; new(&lt;span style=&#34;color:#a6e22e&#34;&gt;arp&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ArpPacket&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bytes&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewBuffer&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;buf&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binary&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Read&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;binary&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;BigEndian&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;packet&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;关闭套接字&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 关闭套接字
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;syscall&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;recvFd&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mac OS X&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要使用BPF实现, 等有空的时候再实现&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
