@@ -10,9 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2.3.3
-        with:
-          hugo-version: "v0.111.3" # 修改为你使用的 Hugo 版本
+        run: go install github.com/gohugoio/hugo@latest
       - name: Build
         run: hugo --baseUrl="https://mariomang.github.io" --minify
       - name: Deploy
