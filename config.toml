@@ -2,7 +2,7 @@ baseURL = '/'
 languageCode = 'en-us'
 title = 'Mario Mang blog'
 theme = "terminal"
-paginate = 10
+paginate = 15
 disableLiveReload = false
 disableRSS = false
 disableSitemap = false
@@ -16,15 +16,15 @@ publishdir = "docs"
   showMenuItems = 5
   showLanguageSelector = true
   fullWidthTheme = true
-  centerTheme = true
+  centerTheme = false
   autoCover = true
   showLastUpdated = true
   favicon = "images/avatar.jpg"
   updatedDatePrefix = "Updated"
-  oneHeadingSize = true
+  oneHeadingSize = false
   readingTime = true
   Toc = true
-  TocTitle = "catalog"
+  TocTitle = "Catalog"
 
 [languages]
   [languages.en]
@@ -56,10 +56,6 @@ publishdir = "docs"
         identifire = "about"
         name = "About"
         url = "/about"
-      [[languages.en.menu.main]]
-        identifire = "showcase"
-        name = "Showcase"
-        url = "/showcase"
 [module]
   #replacements = "github.com/panr/hugo-theme-terminal -> themes/terminal"
 [[module.imports]]
