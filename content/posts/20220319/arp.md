@@ -17,6 +17,7 @@ color = "red" #color from the theme settings
 # ARP(Address Resolution Protocol)
 > 地址解析协议
 
+
 ## 引言
 
 传统IPv4网络需要使用32位的IPv4地址和48位的硬件地址, 才可以将一个帧发送至另外一台主机  
@@ -79,14 +80,14 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 
 1. Linux: 
     * 首先实现一个 htons, 因为 Socket() 中 protocol 参数占用两个字节，所以实现一个 int16 的 htons 就可以了
-    ``` golang
+    ``` go
         func Htons16(n int) int {
             return (n & 0xFF) << 8 + (n >> 8) & 0xFF
         }
     ```
 
     * 定义 Arp Packet 结构
-    ``` golang 
+    ``` go 
         // ArpPacket  ARP数据包
         type ArpPacket struct {
             DstMac [6]byte // 目的地址
@@ -108,7 +109,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
     ```
 
     * 构造 Arp 数据包
-    ``` golang
+    ``` go
         // 构造arp数据包
         packet := new(arp.ArpPacket)
         // 构造头部信息
@@ -136,7 +137,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 
     * 建立原始套接字
 
-    ``` golang
+    ``` go
         sockfd, err := syscall.Socket(
             syscall.AF_PACKET, 
             syscall.SOCK_RAW, 
@@ -147,7 +148,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
     ```
 
     * 发送数据包并关闭 Socket
-    ``` golang
+    ``` go {linenos=inline,hl_lines=[3,"6-9"]}
         // 将Packet结构转为bytes
         buffer := bytes.NewBuffer(make([]byte, 0))
         if err := binary.Write(buffer, binary.BigEndian, packet); err != nil {
@@ -172,7 +173,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 
 1. Linux 
     * 建立原始套接字
-    ``` golang
+    ``` go
         // 通过 Linux 原始套接字完成数据包的接收
         recvFd, err := syscall.Socket(
             syscall.AF_PACKET, 
@@ -184,7 +185,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
     ```
 
     * 接受 Arp 数据包
-    ``` golang
+    ``` go
         // 数据会读取进buf切片中
         buf := make([]byte, 60)
 		n, fromAddr, err := syscall.Recvfrom(recvFd, buf, 0)
@@ -194,7 +195,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
     ```
 
     * 解析数据包
-    ``` golang 
+    ``` go 
         packet := new(arp.ArpPacket)
 		buffer := bytes.NewBuffer(buf)
 		if err := binary.Read(buffer, binary.BigEndian, packet); err != nil {
@@ -203,7 +204,7 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
     ```
 
     * 关闭套接字
-    ``` golang 
+    ``` go 
         // 关闭套接字
         if err := syscall.Close(recvFd); err != nil {
             log.Fatalln(err)

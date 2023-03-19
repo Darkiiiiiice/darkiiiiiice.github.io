@@ -8,7 +8,21 @@ disableRSS = false
 disableSitemap = false
 publishdir = "docs"
 
-
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    hl_lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = false
+    noHl = false
+    style = 'monokai'
+    tabWidth = 4
 
 [params]
   contentTypeName = "posts"
