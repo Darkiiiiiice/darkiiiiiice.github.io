@@ -29,14 +29,14 @@ ARP高效运行的关键是维护在每个主机和路由器上的ARP缓存, 该
 
 Linux下使用arp命令查看ARP缓存  
 
-``` bash
+``` shell {linenos=false}
 $ arp 
 Address     HWtype HWaddress         FlagsMask  Iface
 192.168.1.1 ether  f4:0f:3b:2a:4b:ec C          eno1
 ```
 
 arp -a 用于显示缓存中的所有条目  
-``` bash
+``` shell {linenos=false}
 $ arp -a
 domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 ```
