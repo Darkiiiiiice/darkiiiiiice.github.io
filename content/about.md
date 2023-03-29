@@ -12,6 +12,4 @@ Toc: false
 
 * Author: MarioMang
 * Email: darkiiiiiice@gmail.com
-* Github: [Githug/MarioMang](https://github.com/mariomang)
-
-
+* Github: [Github/MarioMang](https://github.com/mariomang)
