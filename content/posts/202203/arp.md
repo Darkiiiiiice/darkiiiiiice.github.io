@@ -167,9 +167,9 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 
         // 关闭套接字
 
-  if err := syscall.Close(sockfd); err != nil {
-   log.Fatalln(err)
-  }
+        if err := syscall.Close(sockfd); err != nil {
+            log.Fatalln(err)
+        }
 
     ```
 
@@ -198,9 +198,9 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
         // 数据会读取进buf切片中
         buf := make([]byte, 60)
 
-  n, fromAddr, err := syscall.Recvfrom(recvFd, buf, 0)
-  if err != nil {
-   log.Fatalln(err)
+        n, fromAddr, err := syscall.Recvfrom(recvFd, buf, 0)
+        if err != nil {
+            log.Fatalln(err)
         }
     ```
 
@@ -208,10 +208,10 @@ domain (192.168.199.121) at f4:0f:24:2a:4b:ec [ether] on eno1
 
     ``` go
         packet := new(arp.ArpPacket)
-  buffer := bytes.NewBuffer(buf)
-  if err := binary.Read(buffer, binary.BigEndian, packet); err != nil {
-   log.Fatalln(err)
-  }
+        buffer := bytes.NewBuffer(buf)
+        if err := binary.Read(buffer, binary.BigEndian, packet); err != nil {
+            log.Fatalln(err)
+        }
     ```
 
     * 关闭套接字

@@ -58,13 +58,13 @@ go get github.com/MarioMang/hitokoto@v1.0.2
 
 不使用自定义 User-Agent:
 
-``` golang {linenos=false}
+``` go {linenos=false}
 var executor = NewExecutor()
 ```
 
 使用自定义 User-Agent:
 
-``` golang {linenos=false}
+``` go {linenos=false}
 var executor = NewExecutor().WithUserAgent(userAgent)
 ```
 
@@ -80,7 +80,7 @@ var executor = NewExecutor().WithUserAgent(userAgent)
 使用默认配置
 > 默认请求 (international.v1.hitokoto.cn) 地址
 
-``` golang
+``` go
 e := NewExecutor()
 
 req := &op.HitokotoRequest{
@@ -98,7 +98,7 @@ if err != nil {
 使用Global地址:
 > 请求 (v1.hitokoto.cn) 地址
 
-``` golang
+``` go
 e := NewExecutor().WithGlobalAPI()
 
 req := &op.HitokotoRequest{
@@ -147,7 +147,7 @@ if err != nil {
 
 登录接口，成功返回用户信息（包含令牌）
 
-``` golang
+``` go
 e := NewExecutor()
 
 req := &op.LoginRequest{
@@ -172,7 +172,7 @@ if err != nil {
 
 注册接口，成功返回用户信息。
 
-``` golang
+``` go
 e := NewExecutor()
 
 req := &op.RegisterRequest{
@@ -198,7 +198,7 @@ if err != nil {
 
 获得用户赞的句子
 
-``` golang
+``` go
 e := NewExecutor()
 
 req := &op.UserHitokotoLikeRequest{
