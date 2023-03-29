@@ -17,7 +17,7 @@ publishdir = "docs"
     hl_inline = false
     lineAnchors = ''
     lineNoStart = 1
-    lineNos = true
+    lineNos = false
     lineNumbersInTable = false
     noClasses = false
     noHl = false
@@ -26,7 +26,7 @@ publishdir = "docs"
 
 [params]
   contentTypeName = "posts"
-  themeColor = "blue" 
+  themeColor = "blue"
   showMenuItems = 5
   showLanguageSelector = true
   fullWidthTheme = true
