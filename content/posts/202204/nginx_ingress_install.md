@@ -42,7 +42,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 ---
-apiVersion: v1
+apiVersion: v1 
 kind: ServiceAccount
 metadata:
   labels:
