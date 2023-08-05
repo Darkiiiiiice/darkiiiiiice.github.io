@@ -1,17 +1,18 @@
-+++
-title = "K8S Persistent Volume"
-date = "2023-04-04T10:07:22+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = ""
-tags = ["k8s"]
-keywords = [ "k8s", "pv", "persistent", "persistent volume", "volume"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-+++
+---
+title: "K8S Persistent Volume"
+date: 2023-04-04T10:07:22+08:00
+lastmod: 2023-04-04T10:07:22+08:00
+author: "MarioMang"
+keywords: "linux,k8s,pv,persistent,persistent volume,volume"
+categories:
+    - linux
+    - k8s
+tags:
+  - linux
+  - k8s
+
+toc: true
+---
 
 # Persistent Volume
 

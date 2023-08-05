@@ -1,17 +1,18 @@
-+++
-title = "Systemd"
-date = "2023-03-30T15:47:39+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = "images/systemd_cover.png"
-tags = ["linux", "systemd"]
-keywords = ["linux", "systemdd"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-+++
+---
+title: "Systemd"
+date: 2023-03-30T15:47:39+08:00
+lastmod: 2023-03-30T15:47:39+08:00
+author: "MarioMang"
+keywords: "linux,systemdd"
+categories:
+    - linux
+    - systemd
+tags:
+  - linux
+  - systemdd
+
+toc: true
+---
 
 # Systemd
 

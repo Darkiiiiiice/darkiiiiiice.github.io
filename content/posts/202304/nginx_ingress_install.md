@@ -1,17 +1,18 @@
-+++
-title = "Nginx Ingress Install Yaml"
-date = "2023-04-06T16:56:01+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = ""
-tags = ["k8s", "ingress"]
-keywords = ["k8s", "nginx", "ingress", "nginx-ingress"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-+++
+---
+title: "Nginx Ingress Install Yaml"
+date: 2023-04-06T16:56:01+08:00
+lastmod: 2023-04-06T16:56:01+08:00
+author: "MarioMang"
+keywords: "linux,k8s,nginx,ingress,nginx-ingres"
+categories:
+    - linux
+    - k8s
+tags:
+  - linux
+  - k8s
+
+toc: true
+---
 
 # Nginx-Ingress Install YAML
 
@@ -42,7 +43,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 ---
-apiVersion: v1 
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:

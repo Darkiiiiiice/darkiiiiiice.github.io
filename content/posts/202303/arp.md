@@ -1,17 +1,18 @@
-+++
-title = "ARP 地址解析协议"
-date = "2023-03-19T00:24:36+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = "images/default_cover.gif"
-tags = ["internet", "protocol"]
-keywords = ["internet", "protocol", "arp"]
-description = ""
-showFullContent = false
-readingTime = true
-hideComments = false
-color = "red" #color from the theme settings
-+++
+---
+title: "ARP 地址解析协议"
+date: 2023-03-19T00:24:36+08:00
+lastmod: 2023-03-19T00:24:36+08:00
+author: "MarioMang"
+keywords: "arp,linux,golang"
+categories:
+    - linux
+    - golang
+tags:
+  - linux
+  - golang
+
+toc: true
+---
 
 
 # ARP(Address Resolution Protocol)

@@ -1,17 +1,18 @@
-+++
-title = "一言网GolangSDK(非官方版)"
-date = "2023-03-29T14:42:46+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = "images/2023_Hitokoto_Banner.jpg"
-tags = ["hitokoto", "golang", "sdk"]
-keywords = ["hitokoto", "golang", "sdk"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "orange" #color from the theme settings
-+++
+---
+title: "一言网GolangSDK(非官方版)"
+date: 2023-03-29T14:42:46+08:00
+lastmod: 2023-03-29T14:42:46+08:00
+author: "MarioMang"
+keywords: "hitokoto,sdk,golang"
+categories:
+    - linux
+    - golang
+tags:
+  - linux
+  - golang
+
+toc: true
+---
 
 # Hitokoto-GO-SDK(一言网GO-SDK非官方版本)
 

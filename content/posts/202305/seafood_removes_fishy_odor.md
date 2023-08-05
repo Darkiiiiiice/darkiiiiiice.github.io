@@ -1,17 +1,18 @@
-+++
-title = "海鲜去腥"
-date = "2023-05-09T10:17:12+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = ""
-tags = ["cook", "seafood"]
-keywords = ["cook", "seafood"]
-description = "how to removes fishy odor for seafoor"
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-+++
+---
+title: "海鲜去腥"
+date: 2023-05-09T10:17:12+08:00
+lastmod: 2023-05-09T10:17:12+08:00
+author: "MarioMang"
+keywords: "cook,seafood"
+categories:
+    - cook
+    - seafood
+tags:
+  - cook
+  - seafood
+
+toc: true
+---
 
 # 海鲜去腥
 
@@ -32,7 +33,6 @@ color = "" #color from the theme settings
 ### 物理去腥
 
 包括清洗，排血，去除粘液，去除内脏，进行盐的腌制
-
 
 ## 去腥材料
 
@@ -60,7 +60,6 @@ color = "" #color from the theme settings
 
 属于香料和物理去腥方式的结合
 
-
 ## 氨基酸
 
 蛋白质和必须氨基酸含量
@@ -71,4 +70,3 @@ color = "" #color from the theme settings
 |鸡胸肉| 19.4% | 42.1% | 8.2% |
 |石斑鱼| 19.4% | 48.9% | 9.5% |
 |鲢鱼 | 17.8% | 42.1% | 7.5% |
-

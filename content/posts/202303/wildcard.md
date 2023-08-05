@@ -1,27 +1,31 @@
-+++
-title = "通配符 Wildcard"
-date = "2023-03-20T15:54:26+08:00"
-author = "MarioMang"
-authorTwitter = "" #do not include @
-cover = ""
-tags = ["wildcard"]
-keywords = ["wildcard"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-+++
+---
+title: "通配符 Wildcard"
+date: 2023-03-20T15:54:26+08:00
+lastmod: 2023-03-20T15:54:26+08:00
+author: "MarioMang"
+keywords: "linux,wildcard"
+categories:
+    - linux
+    - wildcard
+tags:
+  - linux
+  - wildcard
+
+toc: true
+---
 
 # 通配符（Wildcard）
+
 ---
 通配符是计算机操作系统中用来匹配文件名或路径的字符。在命令行环境下，通配符常常用于搜索、复制或删除文件，以及进行批量操作。
 
 ### 什么是通配符
+
 ---
 通配符是模式匹配的一种方法，用于搜索符合特定模式的文件名或路径。通配符包括一些特殊字符，可以代替任意字符或字符串，从而简化文件操作的过程。
 
 在命令行环境中，通配符通常被用于以下场景：
+
 * 搜索特定类型的文件
 * 批量处理多个文件
 * 复制或移动文件
@@ -29,8 +33,10 @@ color = "" #color from the theme settings
 通配符是根据操作系统和应用程序而来的，不同的操作系统或应用可能有不同的通配符语法和规则。下面将介绍常用的通配符。
 
 ### 基本的通配符
+
 ---
 以下是常见的通配符及其基本用法：
+
 * __\*__：匹配任意长度的字符，包括空字符。例如，*.txt可以匹配所有以.txt结尾的文件名，而file*可以匹配所有以file开头的文件名。
 * __?__: 匹配一个任意字符。例如，f?le.txt可以匹配file.txt、fale.txt等文件名。
 * __[]__: 匹配括号内任意一个字符。例如，[abc].txt可以匹配a.txt、b.txt、c.txt等文件名，而[0-9].txt匹配所有以数字开头且以.txt结尾的文件名。
@@ -43,16 +49,20 @@ color = "" #color from the theme settings
 > PS: 在Windows系统下，通配符与大小写无关。而在Linux系统下，通配符默认是区分大小写的
 
 ### 进阶的通配符
---- 
+
+---
 除了以上基本通配符外，还有一些进阶的通配符，比如：
-* __\*\*__: 代表在路径中匹配0个或多个子目录。例如，/home/**/* 可以匹配  
+
+* __\*\*__: 代表在路径中匹配0个或多个子目录。例如，/home/**/* 可以匹配
   /home/user1/file.txt、/home/user1/subdir/file.txt、/home/user1/subdir/subsubdir/file.txt等文件路径
 * __{}__: 枚举通配符，只匹配花括号内列举的任意一个字符串。例如，{file,dir}*.txt可以匹配以file或dir开头且以 .txt 结尾的文件名。这个通配符在一些命令行工具中不支持，需要具体查看文档使用。
 
 ### 使用通配符的例子
+
 ---
 
 下面是一些使用通配符的例子：
+
 * __ls *.txt__: 列出当前目录下所有以 .txt 结尾的文件。
 * __cp file* /path/to/dest/__: 将所有以 file 开头的文件拷贝到指定路径下。
 * __rm [abc]*.txt__: 删除当前目录下以 a、b 或 c 开头并以 .txt 结尾的文件。
@@ -61,5 +71,6 @@ color = "" #color from the theme settings
 > PS: 在使用通配符时需要小心，特别是在对多个文件进行操作时。对于包含特殊字符的文件名，通配符可能会产生意外的匹配结果。因此，使用通配符操作文件时，务必确认匹配文件的正确性，再进行相关的操作。
 
 ### 总结
---- 
+
+---
 通配符可以帮助用户在命令行环境下快速定位、搜索、处理文件。熟练掌握通配符的语法和规则，能够提高工作效率。同时，需要注意通配符可能带来的风险，确保文件匹配和操作的正确性。
