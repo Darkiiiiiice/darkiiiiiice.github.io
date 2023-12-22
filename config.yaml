@@ -1101,13 +1101,13 @@ params:
     async: true
     transition:
       # All available transition variants: https://theme-next.js.org/animate/
-      postBlock: fadeIn
-      postHeader: fadeInDown
-      postBody: fadeInDown
-      collHeader: fadeInLeft
+      postBlock: zoomIn
+      postHeader: flipInX
+      postBody: zoomInUp
+      collHeader: bounceInDown
       # 侧边样效果 只有在 Pisces | Gemini 模式下才支持
       # Only for Pisces | Gemini.
-      sidebar: fadeInUp
+      sidebar: bounceInUp
 
   # TODO
   # Progress bar in the top during page loading.
@@ -1116,7 +1116,7 @@ params:
     enable: false
     # All available colors:
     # black | blue | green | orange | pink | purple | red | silver | white | yellow
-    color: blue
+    color: orange
     # All available themes:
     # big-counter | bounce | barber-shop | center-atom | center-circle | center-radar | center-simple
     # corner-indicator | fill-left | flat-top | flash | loading-bar | mac-osx | material | minimal
