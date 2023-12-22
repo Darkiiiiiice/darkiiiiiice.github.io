@@ -78,7 +78,7 @@ markup:
     sectionNumbers: false
     trace: true
     verbose: true
-    workingFolderCurrent: false
+    workingFolderCurrent: true
   goldmark:
     renderer:
       unsafe: true
