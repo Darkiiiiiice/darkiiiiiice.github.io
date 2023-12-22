@@ -63,7 +63,7 @@ markup:
     backend: html5
     extensions: [
       "asciidoctor-html5s",
-      "asciidoctor-bibtex",
+      # "asciidoctor-bibtex",
       "asciidoctor-diagram",
       "asciidoctor-interdoc-reftext",
       "asciidoctor-katex",
