@@ -32,9 +32,53 @@ paginate: 20
 # 开启支持表情符号
 # Enable Emoji support
 enableEmoji: true
+
+security:
+  enableInlineShortcodes: false
+  exec:
+    allow:
+      - "^dart-sass-embedded$"
+      - "^go$"
+      - "^npx$"
+      - "^postcss$"
+      - "^asciidoctor$"
+    osEnv:
+      - "(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM|RUBYLIB)$"
+
+  funcs:
+    getenv:
+      - "^HUGO_"
+
+  http:
+    methods:
+      - "(?i)GET|POST"
+    urls:
+      - ".*"
+
 # 让 Makedown 文档支持 HTML 语法，高亮，文章目录等功能
 # Make markdown content support HTML syntax, highlight, toc etc.
 markup:
+  asciidocExt:
+    attributes: {}
+    backend: html5
+    extensions: [
+      "asciidoctor-html5s",
+      # "asciidoctor-bibtex",
+      "asciidoctor-diagram",
+      "asciidoctor-interdoc-reftext",
+      "asciidoctor-katex",
+      # "asciidoctor-mathematical",
+      # "asciidoctor-question",
+      "asciidoctor-rouge"
+    ]
+    failureLevel: fatal
+    noHeaderOrFooter: true
+    preserveTOC: false
+    safeMode: unsafe
+    sectionNumbers: false
+    trace: false
+    verbose: false
+    workingFolderCurrent: false
   goldmark:
     renderer:
       unsafe: true
