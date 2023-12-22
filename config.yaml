@@ -69,7 +69,7 @@ markup:
       "asciidoctor-katex",
       # "asciidoctor-mathematical",
       # "asciidoctor-question",
-      "asciidoctor-rouge"
+      # "asciidoctor-rouge"
     ]
     failureLevel: fatal
     noHeaderOrFooter: true
