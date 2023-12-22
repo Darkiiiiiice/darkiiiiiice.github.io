@@ -2,6 +2,9 @@
 title: "Asciidoc"
 date: 2023-12-22T14:14:03+08:00
 draft: false
+description: "AsciiDoc"
+keywords: "asciidoc"
+lastmod: 2023-12-22T14:14:03+08:00
 ---
 
 
