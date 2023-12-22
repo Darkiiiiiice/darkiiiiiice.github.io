@@ -3,14 +3,14 @@
 .PHONY: depends
 
 depends:
-	apt-get install -y asciidoctor
-	gem install asciidoctor-rouge
-	gem install asciidoctor-question
-	gem install asciidoctor-mathematical
-	gem install asciidoctor-katex
-	gem install asciidoctor-interdoc-reftext
-	gem install asciidoctor-diagram
-	gem install asciidoctor-bibtex
-	gem install asciidoctor-html5s
+	sudo apt-get install -y asciidoctor
+	sudo gem install asciidoctor-rouge
+	sudo gem install asciidoctor-question
+	sudo gem install asciidoctor-mathematical
+	sudo gem install asciidoctor-katex
+	sudo gem install asciidoctor-interdoc-reftext
+	sudo gem install asciidoctor-diagram
+	sudo gem install asciidoctor-bibtex
+	sudo gem install asciidoctor-html5s
 
 
