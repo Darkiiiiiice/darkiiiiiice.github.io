@@ -65,7 +65,7 @@ markup:
       "asciidoctor-html5s",
       # "asciidoctor-bibtex",
       "asciidoctor-diagram",
-      "asciidoctor-interdoc-reftext",
+      # "asciidoctor-interdoc-reftext",
       "asciidoctor-katex",
       # "asciidoctor-mathematical",
       # "asciidoctor-question",
