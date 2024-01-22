@@ -18,6 +18,9 @@ toc: true
 
 *systemd* 是一个 Linux 系统下的系统和服务管理器，它用于启动、停止和管理系统内各个服务进程。相比之前使用的 SysVinit 和 Upstart 两种系统初始化方案，systemd 提供了更快、更简单、更强大的系统管理功能，成为了现代化 Linux 发行版的标配。
 
+![hello](/images/systemd_cover.png)
+
+
 ## systemd 的主要特点
 
 ### 启动速度快
