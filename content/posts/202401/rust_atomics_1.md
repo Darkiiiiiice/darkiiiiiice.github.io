@@ -1,5 +1,5 @@
 ---
-title: Rust 并发编程 (一)"
+title: Rust 并发编程 (一)
 date: 2024-01-22T16:26:06+08:00
 draft: false
 description: "Rust 并发编程笔记"
@@ -293,3 +293,176 @@ fn main() {
     assert_eq!(n.into_inner().unwrap(), 1000);
 }
 ```
+
+为了清楚地看到互斥锁的效果，我们可以让每个线程在解锁互斥锁之前等待一秒钟
+
+``` rust
+use std::time::Duration;
+
+fn main() {
+    let n = Mutex::new(0);
+    thread::scope(|s| {
+        for _ in 0..10 {
+            s.spawn(|| {
+                let mut guard = n.lock().unwrap();
+                for _ in 0..100 {
+                    *guard += 1;
+                }
+                thread::sleep(Duration::from_secs(1)); // New!
+            });
+        }
+    });
+    assert_eq!(n.into_inner().unwrap(), 1000);
+}
+```
+
+#### 锁中毒(Lock Poisoning)
+
+当线程在持有锁时发生恐慌时，Rust 中的 Mutex 会被标记为中毒。发生这种情况时， Mutex 将不再被锁定，但调用它的 lock 方法将导致 Err 表明它已中毒。
+
+在中毒的互斥锁上调用 lock() 仍然会锁定互斥锁。 lock() 返回的 Err 包含 MutexGuard ，允许我们在必要时纠正不一致的状态。
+
+#### 读写锁
+
+互斥锁只涉及独占访问。 MutexGuard 将为我们提供一个受保护数据的独占引用 ( &mut T )，即使我们只想查看一下数据，一个共享引用 ( &T ) 就足够了。
+
+读写锁是互斥锁的稍微复杂的版本，它理解独占访问和共享访问之间的区别，并且可以提供其中任何一种。它具有三种状态：未锁定、由单个写入者锁定（用于独占访问）和由任意数量的读取器锁定（用于共享访问）。它常用于经常被多个线程读取，但只是偶尔更新一次的数据。
+
+Rust 标准库通过 `std::sync::RwLock<T>` 类型提供这种锁。它的工作方式类似于标准的 Mutex ，除了它的接口主要分为两部分。它不是单一的 lock() 方法，而是一个 read() 和 write() 方法用于锁定为读取器或写入器。它带有两种守卫类型，一种用于读，一种用于写： RwLockReadGuard 和 RwLockWriteGuard 。前者仅实现 Deref ，使其表现得像对受保护数据的共享引用，而后者还实现 DerefMut ，表现得像独占引用。
+
+它实际上是 RefCell 的多线程版本，动态跟踪引用数量以确保遵守借用规则。
+
+`Mutex<T>` 和 `RwLock<T>` 都要求 T 为 Send ，因为它们可用于将 T 发送到另一个线程。 `RwLock<T>` 还要求 T 也实现 Sync ，因为它允许多个线程持有对受保护数据的共享引用 ( &T )。 （严格来说，您可以为不满足这些要求的 T 创建一个锁，但您不能在线程之间共享它，因为锁本身不会实现 Sync 。）
+
+### 等待： 停放和条件变量
+
+当数据被多个线程改变时，在很多情况下，它们需要等待某个事件，等待数据的某些条件变为真。例如，如果我们有一个保护 Vec 的互斥锁，我们可能希望等到它包含任何东西。
+
+#### 线程停放(Thread Praking)
+
+等待来自另一个线程的通知的一种方法称为线程停放(Thread parking)。线程可以自行停放(park)，使其进入睡眠状态，从而停止消耗任何 CPU 周期。然后另一个线程可以取消停放的线程，将其从睡眠中唤醒。
+
+线程停放可通过 `std::thread::park()` 函数获得。对于 unparking，您可以在表示要 unpark 的线程的 Thread 对象上调用 unpark() 方法。这样的对象可以从 spawn 返回的join handle中获取，也可以通过 std::thread::current() 由线程自己获取。
+
+``` rust
+use std::collections::VecDeque;
+
+fn main() {
+    let queue = Mutex::new(VecDeque::new());
+
+    thread::scope(|s| {
+        // Consuming thread
+        let t = s.spawn(|| loop {
+            let item = queue.lock().unwrap().pop_front();
+            if let Some(item) = item {
+                dbg!(item);
+            } else {
+                thread::park();
+            }
+        });
+
+        // Producing thread
+        for i in 0.. {
+            queue.lock().unwrap().push_back(i);
+            t.thread().unpark();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+}
+```
+
+线程停放的一个重要属性是在线程停放自身之前对 unpark() 的调用不会丢失。取消停放的请求仍然被记录下来，下次线程尝试停放自己时，它会清除该请求并直接继续，而不会真正进入睡眠状态。
+
+为什么这对正确操作至关重要，让我们来看看两个线程执行的步骤的可能顺序：
+
+1. 消费线程——我们称它为 C——锁定队列。
+
+2. C 试图从队列中弹出一个项目，但它是空的，导致 None 。
+
+3. C 解锁队列。
+
+4. 生产线程，我们称之为 P，锁定队列。
+
+5. P 将一个新项目推送到队列中。
+
+6. P 再次解锁队列。
+
+7. P 调用 unpark() 通知 C 有新项目。
+
+8. C 调用 park() 进入睡眠状态，等待更多项目。
+
+unpark 请求不会叠加。调用 unpark() 两次然后再调用 park() 两次仍然会导致线程进入休眠状态。第一个 park() 清除请求直接返回，但是第二个照常休眠。
+
+如果在 park() 返回之后立即调用 unpark() ，但在队列被锁定和清空之前， unpark() 调用是不必要的，但仍会导致下一个 park() 调用立即返回。这导致（空）队列被额外锁定和解锁。虽然这不会影响程序的正确性，但会影响其效率和性能。
+
+#### 条件变量
+
+条件变量是一个更常用的选项，用于等待受互斥锁保护的数据发生某些事情。它们有两个基本操作：等待和通知。线程可以等待一个条件变量，之后当另一个线程通知同一个条件变量时它们可以被唤醒。多个线程可以等待同一个条件变量，通知可以发送给一个等待线程，也可以发送给所有线程。
+
+Rust 标准库提供了一个条件变量 std::sync::Condvar 。它的 wait 方法接受一个 MutexGuard 来证明我们已经锁定了互斥锁。它首先解锁互斥锁并进入休眠状态。稍后，当被唤醒时，它会重新锁定互斥锁并返回一个新的 MutexGuard （这证明互斥锁再次被锁定）
+
+它有两个通知函数： notify_one 只唤醒一个等待线程（如果有的话）， notify_all 唤醒所有线程。
+
+``` rust
+use std::sync::Condvar;
+
+let queue = Mutex::new(VecDeque::new());
+let not_empty = Condvar::new();
+
+thread::scope(|s| {
+    s.spawn(|| {
+        loop {
+            let mut q = queue.lock().unwrap();
+            let item = loop {
+                if let Some(item) = q.pop_front() {
+                    break item;
+                } else {
+                    q = not_empty.wait(q).unwrap();
+                }
+            };
+            drop(q);
+            dbg!(item);
+        }
+    });
+
+    for i in 0.. {
+        queue.lock().unwrap().push_back(i);
+        not_empty.notify_one();
+        thread::sleep(Duration::from_secs(1));
+    }
+});
+```
+
+* 我们现在不仅有一个包含队列的 Mutex ，还有一个用于传达“非空”条件的 Condvar 。
+
+* 我们不再需要知道唤醒哪个线程，所以我们不再存储 spawn 的返回值。相反，我们使用 notify_one 方法通过条件变量通知消费者。
+
+* 解锁、等待、重锁都是 wait 方法完成的。我们不得不稍微重组控制流，以便能够将守卫传递给 wait 方法，同时在处理项目之前仍然将其丢弃。
+
+### 总结
+
+* 多个线程可以在同一个程序中并发运行，并且可以在任何时候生成。
+
+* 当主线程结束时，整个程序就结束了。
+
+* 数据竞争是未定义的行为，Rust 的类型系统完全阻止了（在安全代码中）
+
+* Send 的数据可以发送给其他线程， Sync 的数据可以在线程之间共享。
+
+* 常规线程可能会在程序运行时运行，因此只能借用 'static 数据，例如静态和泄漏分配
+
+* 常规线程可能会在程序运行时运行，因此只能借用 'static 数据，例如静态和泄漏分配
+
+* 作用域线程对于限制线程的生命周期以允许它借用非 'static 数据（例如局部变量）很有用。
+
+* &T 是共享引用。 &mut T 是独占引用。常规类型不允许通过共享引用进行修改。
+
+* 由于 UnsafeCell ，某些类型具有内部可变性，它允许通过共享引用进行改变。
+
+* Cell 和 RefCell 是单线程内部可变性的标准类型。 Atomics、 Mutex 和 RwLock 是它们的多线程等价物。
+
+* Cell 和原子只允许替换整个值，而 RefCell 、 Mutex 和 RwLock 允许您通过动态执行访问规则直接改变值。
+
+* 线程停放是等待某些条件的便捷方式。
+
+* 当条件是关于受 Mutex 保护的数据时，使用 Condvar 比线程停放更方便，也更有效。
